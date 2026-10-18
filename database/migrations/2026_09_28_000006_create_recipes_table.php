@@ -10,14 +10,11 @@ return new class extends Migration
     {
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 50);
             $table->text('description')->nullable();
             $table->unsignedInteger('prep_time');   // minutes
-            $table->string('difficulty');           // easy, medium, hard
+            $table->string('difficulty', 10);           // easy, medium, hard
             $table->unsignedInteger('servings');
-
-            $table->foreignId('category_id')
-                ->constrained('categories');
 
             $table->foreignId('author_id')
                 ->constrained('users');

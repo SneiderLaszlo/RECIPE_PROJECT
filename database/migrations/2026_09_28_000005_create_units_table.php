@@ -10,8 +10,7 @@ return new class extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->id();
-            $table->string('name');         // gramm
-            $table->string('abbreviation'); // g
+            $table->string('abbreviation', 10); // g
             $table->timestamps();
         });
     }
