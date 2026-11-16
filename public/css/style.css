@@ -1,0 +1,351 @@
+/* =========================================================
+   Recept oldal – saját stíluslap (nem Tailwind)
+   ========================================================= */
+
+/* ---------- Színek (itt egy helyen átállíthatók) ---------- */
+:root {
+    /* --green: #2f7d4f; */
+    --green: #18c7fc;
+    /* --green-dark: #1f5a37; */
+    --green-dark: #e50d0d;
+    --green-light: #e6f2ea;
+    --bg: #f4f6f4;
+    --text: #222222;
+    --muted: #666666;
+    --border: #dde3dd;
+    --white: #ffffff;
+}
+
+/* ---------- Alapok ---------- */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+a {
+    color: var(--green);
+}
+
+h1, h2, h3 {
+    margin: 0 0 0.5rem;
+    line-height: 1.25;
+}
+
+p {
+    margin: 0 0 1rem;
+}
+
+/* ---------- Elrendezés ---------- */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.container-narrow {
+    max-width: 800px;
+}
+
+.page-header {
+    padding: 2rem 0 1rem;
+}
+
+.page-title {
+    font-size: 1.75rem;
+}
+
+/* ---------- Fejléc és menü ---------- */
+.site-header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+}
+
+.site-header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    text-decoration: none;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+.nav-link {
+    display: inline-block;
+    padding: 0.45rem 0.8rem;
+    border-radius: 6px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.nav-link:hover {
+    background: var(--green-light);
+}
+
+.nav-link.active {
+    background: var(--green-light);
+    color: var(--green-dark);
+    font-weight: 600;
+}
+
+.nav-user {
+    padding: 0 0.5rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.nav-form {
+    margin: 0;
+}
+
+/* A kijelentkezés gomb úgy nézzen ki, mint egy menüpont */
+.nav-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* ---------- Gombok, űrlap ---------- */
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--green);
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: var(--green-dark);
+}
+
+.btn-light {
+    background: var(--white);
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.btn-light:hover {
+    background: var(--green-light);
+}
+
+.search-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.search-form input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+/* ---------- Receptlista ---------- */
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.recipe-card {
+    display: block;
+    padding: 1.5rem;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    text-decoration: none;
+    transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.recipe-card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.recipe-card h3 {
+    font-size: 1.15rem;
+    color: var(--green-dark);
+}
+
+.recipe-card .description {
+    margin: 0.5rem 0 1rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+}
+
+.badge {
+    padding: 0.15rem 0.6rem;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-radius: 999px;
+    font-size: 0.8rem;
+}
+
+.meta {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.author {
+    margin-top: 0.25rem;
+    color: #999999;
+    font-size: 0.8rem;
+}
+
+.empty {
+    padding: 2rem;
+    text-align: center;
+    color: var(--muted);
+}
+
+/* ---------- Recept részletes oldal ---------- */
+.card {
+    margin: 2rem 0;
+    padding: 2rem;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
+.section-title {
+    margin-top: 2rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--green-light);
+    font-size: 1.2rem;
+    color: var(--green-dark);
+}
+
+.ingredient-list {
+    margin: 0.75rem 0 0;
+}
+
+.ingredient-list li {
+    padding: 0.2rem 0;
+}
+
+.steps {
+    margin: 0.75rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.steps li {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.9rem;
+}
+
+.step-number {
+    flex-shrink: 0;
+    width: 1.8rem;
+    height: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--green);
+    color: var(--white);
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+}
+
+/* ---------- Lapozó (a Laravel bootstrap-4 nézetéhez) ---------- */
+.pagination {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem;
+    margin: 2rem 0;
+    padding: 0;
+    list-style: none;
+}
+
+.page-link {
+    display: block;
+    padding: 0.4rem 0.75rem;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    text-decoration: none;
+}
+
+a.page-link:hover {
+    background: var(--green-light);
+}
+
+.page-item.active .page-link {
+    background: var(--green);
+    border-color: var(--green);
+    color: var(--white);
+}
+
+.page-item.disabled .page-link {
+    color: #aaaaaa;
+}
+
+/* ---------- Lábléc ---------- */
+.site-footer {
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+/* ---------- Kisebb képernyő ---------- */
+@media (max-width: 600px) {
+    .card {
+        padding: 1.25rem;
+    }
+
+    .page-title {
+        font-size: 1.4rem;
+    }
+}
