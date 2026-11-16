@@ -6,6 +6,7 @@ use App\Models\Recipe;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Models\Category;
 
 class RecipeController extends Controller
 {
@@ -21,12 +22,20 @@ class RecipeController extends Controller
             $query->where('name', 'like', '%' . $request->needle . '%');
         }
 
+        if ($request->filled('category')){
+            $query->whereHas('categories', function ($q) use ($request) 
+            {$q->where('categories.id', $request->category);
+        });
+    }
+
         $recipes = $query
             ->latest()
             ->paginate(12)
             ->withQueryString();
 
-        return view('recipes.index', compact('recipes'));
+        $categories = Category::orderBy('name')->get();
+
+        return view('recipes.index', compact('recipes', 'categories'));
     }
 
     /**

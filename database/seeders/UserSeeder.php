@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         $users = [
             ['name' => 'Admin',      'email' => 'admin@example.com',     'role' => 'admin'],
             ['name' => 'Moderátor',  'email' => 'moderator@example.com', 'role' => 'moderator'],
-            ['name' => 'LACI TESZT', 'email' => 'user@example.com',      'role' => 'user'],
+            ['name' => 'LACI TESZT', 'email' => 'user@example.com',      'role' => 'user'],      
         ];
  
         foreach ($users as $data) {
@@ -28,6 +28,7 @@ class UserSeeder extends Seeder
                 'email'    => $data['email'],
                 'password' => Hash::make('1234'),
                 'role_id'  => $role->id,
+                'email_verified_at' => now(),
             ]);
         }
     }

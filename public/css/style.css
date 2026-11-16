@@ -173,6 +173,15 @@ p {
     font-family: inherit;
 }
 
+.search-form select {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--white);
+    font-size: 1rem;
+    font-family: inherit;
+}
+
 /* ---------- Receptlista ---------- */
 .recipe-grid {
     display: grid;

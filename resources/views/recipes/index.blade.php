@@ -7,17 +7,28 @@
     <div class="page-header">
         <h1 class="page-title">Receptek</h1>
     </div>
-
-    {{-- Kereső --}}
     <form method="GET" action="{{ route('recipes.index') }}" class="search-form">
-        <input type="text" name="needle" value="{{ request('needle') }}"
-               placeholder="Keresés a receptek között...">
-        <button type="submit" class="btn">Keresés</button>
 
-        @if (request()->filled('needle'))
-            <a href="{{ route('recipes.index') }}" class="btn btn-light">Törlés</a>
-        @endif
-    </form>
+    <select name="category" onchange="this.form.submit()">
+        <option value="">Minden kategória</option>
+        @foreach ($categories as $category)
+            <option value="{{ $category->id }}"
+                {{ request('category') == $category->id ? 'selected' : '' }}>
+                {{ $category->name }}
+            </option>
+        @endforeach
+    </select>
+
+    <input type="text" name="needle" value="{{ request('needle') }}"
+           placeholder="Keresés a receptek között...">
+
+    <button type="submit" class="btn">Keresés</button>
+
+    @if (request()->filled('needle') || request()->filled('category'))
+        <a href="{{ route('recipes.index') }}" class="btn btn-light">Törlés</a>
+    @endif
+
+</form>
 
     @if ($recipes->isEmpty())
         <p class="empty">Nincs találat.</p>
@@ -37,8 +48,8 @@
                     </div>
 
                     <div class="meta">
-                        {{ $recipe->prep_time }} perc ·
-                        {{ $recipe->difficulty }} ·
+                        {{ $recipe->prep_time }} perc |
+                        {{ $recipe->difficulty }} |
                         {{ $recipe->servings }} adag
                     </div>
 
