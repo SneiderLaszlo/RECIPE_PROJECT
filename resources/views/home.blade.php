@@ -4,8 +4,9 @@
 
 @section('content')
 
-    <div class="page-header">
-        <h1 class="page-title">Hogyan válasszunk receptet?</h1>
+    <div class="page-header home-hero">
+        <h1 class="page-title">Mit főzzünk ma?</h1>
+        <p class="page-subtitle">Válaszd ki, hogyan találjuk meg a mai ebédet vagy vacsorát!</p>
     </div>
 
     <div class="home-buttons">

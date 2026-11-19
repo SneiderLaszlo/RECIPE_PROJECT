@@ -1,19 +1,26 @@
 /* =========================================================
    Recept oldal – saját stíluslap (nem Tailwind)
+   Konyhai, meleg téma
    ========================================================= */
 
-/* ---------- Színek (itt egy helyen átállíthatók) ---------- */
+/* ---------- Színek és betűk (itt egy helyen átállíthatók) ---------- */
 :root {
-    /* --green: #2f7d4f; */
-    --green: #18c7fc;
-    /* --green-dark: #1f5a37; */
-    --green-dark: #e50d0d;
-    --green-light: #e6f2ea;
-    --bg: #f4f6f4;
-    --text: #222222;
-    --muted: #666666;
-    --border: #dde3dd;
-    --white: #ffffff;
+    --accent: #c8553d;        /* paradicsompiros: gombok, kiemelések */
+    --accent-dark: #a2412c;   /* sötétebb piros (hover) */
+    --herb: #5f8a4e;          /* fűszernövény zöld */
+    --herb-dark: #44693a;
+    --herb-light: #e9f0dd;
+    --butter: #f8e6b0;        /* vajsárga */
+    --blush: #fbe4dc;         /* halvány barackszín */
+    --bg: #fbf5ea;            /* krémszínű háttér */
+    --white: #fffdf8;         /* meleg fehér (kártyák) */
+    --text: #3b2a20;          /* sötét csokoládébarna szöveg */
+    --muted: #7d6b5d;
+    --border: #eadcc6;
+    --shadow: 0 4px 14px rgba(94, 58, 30, 0.10);
+    --shadow-hover: 0 10px 24px rgba(94, 58, 30, 0.18);
+    --font-body: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-head: "Playfair Display", Georgia, "Times New Roman", serif;
 }
 
 /* ---------- Alapok ---------- */
@@ -23,19 +30,24 @@
 
 body {
     margin: 0;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: var(--bg);
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    background-color: var(--bg);
+    /* finom pöttyös "konyharuha" minta */
+    background-image: radial-gradient(rgba(200, 85, 61, 0.07) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
     color: var(--text);
-    line-height: 1.6;
+    line-height: 1.65;
 }
 
 a {
-    color: var(--green);
+    color: var(--accent);
 }
 
 h1, h2, h3 {
     margin: 0 0 0.5rem;
     line-height: 1.25;
+    font-family: var(--font-head);
 }
 
 p {
@@ -58,13 +70,39 @@ p {
 }
 
 .page-title {
-    font-size: 1.75rem;
+    font-size: 2rem;
+}
+
+/* kis piros vonal a cím alatt */
+.page-title::after {
+    content: "";
+    display: block;
+    width: 56px;
+    height: 4px;
+    margin-top: 0.4rem;
+    border-radius: 4px;
+    background: var(--accent);
+}
+
+.page-subtitle {
+    margin: 0.5rem 0 0;
+    color: var(--muted);
 }
 
 /* ---------- Fejléc és menü ---------- */
 .site-header {
+    position: relative;
     background: var(--white);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 2px solid var(--border);
+    box-shadow: 0 2px 8px rgba(94, 58, 30, 0.06);
+}
+
+/* kockás terítő-csík a fejléc tetején */
+.site-header::before {
+    content: "";
+    display: block;
+    height: 8px;
+    background: repeating-linear-gradient(90deg, var(--accent) 0 14px, var(--white) 14px 28px);
 }
 
 .site-header .container {
@@ -78,10 +116,15 @@ p {
 }
 
 .brand {
-    font-size: 1.25rem;
+    font-family: var(--font-head);
+    font-size: 1.5rem;
     font-weight: 700;
-    color: var(--green-dark);
+    color: var(--accent);
     text-decoration: none;
+}
+
+.brand:hover {
+    color: var(--accent-dark);
 }
 
 .nav {
@@ -93,21 +136,22 @@ p {
 
 .nav-link {
     display: inline-block;
-    padding: 0.45rem 0.8rem;
-    border-radius: 6px;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
     color: var(--text);
-    text-decoration: none;
     font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
 }
 
 .nav-link:hover {
-    background: var(--green-light);
+    background: var(--butter);
+    color: var(--text);
 }
 
 .nav-link.active {
-    background: var(--green-light);
-    color: var(--green-dark);
-    font-weight: 600;
+    background: var(--accent);
+    color: var(--white);
 }
 
 .nav-user {
@@ -120,7 +164,7 @@ p {
     margin: 0;
 }
 
-/* A kijelentkezés gomb úgy nézzen ki, mint egy menüpont */
+/* A gomb úgy nézzen ki, mint egy menüpont */
 .nav-button {
     background: none;
     border: none;
@@ -128,32 +172,98 @@ p {
     font-family: inherit;
 }
 
-/* ---------- Gombok, űrlap ---------- */
-.btn {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background: var(--green);
-    color: var(--white);
+/* ---------- Profil legördülő menü ---------- */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 240px;
+    padding: 0.4rem;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow-hover);
+    z-index: 100;
+}
+
+/* Egérrel ráhúzva VAGY rákattintva (fókuszban) megjelenik */
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu form {
+    margin: 0;
+}
+
+.dropdown-header {
+    display: block;
+    margin-bottom: 0.25rem;
+    padding: 0.4rem 0.75rem;
+    border-bottom: 1px dashed var(--border);
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.55rem 0.75rem;
+    background: none;
     border: none;
-    border-radius: 6px;
-    font-size: 0.95rem;
+    border-radius: 10px;
+    color: var(--text);
     font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: left;
     text-decoration: none;
     cursor: pointer;
 }
 
+.dropdown-item:hover {
+    background: var(--butter);
+    color: var(--text);
+}
+
+/* ---------- Gombok, űrlap ---------- */
+.btn {
+    display: inline-block;
+    padding: 0.55rem 1.3rem;
+    background: var(--accent);
+    color: var(--white);
+    border: none;
+    border-radius: 999px;
+    box-shadow: 0 2px 0 var(--accent-dark);
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.1s, background 0.15s;
+}
+
 .btn:hover {
-    background: var(--green-dark);
+    background: var(--accent-dark);
+    color: var(--white);
+    transform: translateY(-1px);
 }
 
 .btn-light {
     background: var(--white);
     color: var(--text);
     border: 1px solid var(--border);
+    box-shadow: none;
 }
 
 .btn-light:hover {
-    background: var(--green-light);
+    background: var(--butter);
+    color: var(--text);
 }
 
 .search-form {
@@ -163,14 +273,149 @@ p {
     margin-bottom: 1.5rem;
 }
 
+.search-form input[type="text"],
+.pantry-form select,
+.pantry-form input {
+    padding: 0.55rem 0.9rem;
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 1rem;
+    font-family: inherit;
+}
+
 .search-form input[type="text"] {
     flex: 1;
     min-width: 200px;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 1rem;
-    font-family: inherit;
+}
+
+.search-form input[type="text"]:focus,
+.pantry-form select:focus,
+.pantry-form input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(200, 85, 61, 0.18);
+}
+
+/* ---------- Üzenetek ---------- */
+.alert {
+    margin: 1rem 0;
+    padding: 0.8rem 1.1rem;
+    background: var(--herb-light);
+    border: 1px solid var(--herb);
+    border-radius: 12px;
+    color: var(--herb-dark);
+    font-weight: 600;
+}
+
+.alert-error {
+    background: var(--blush);
+    border-color: var(--accent);
+    color: var(--accent-dark);
+}
+
+.alert-error ul {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+/* ---------- Főoldal ---------- */
+.home-hero {
+    padding-top: 2.5rem;
+    text-align: center;
+}
+
+.home-hero .page-title {
+    font-size: 2.5rem;
+}
+
+.home-hero .page-title::after {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.home-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.home-card {
+    display: block;
+    padding: 2.25rem 1.5rem;
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+    color: var(--text);
+    text-align: center;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+
+.home-card:hover {
+    transform: translateY(-6px) rotate(-0.6deg);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--accent);
+    color: var(--text);
+}
+
+.home-card h2 {
+    font-size: 1.5rem;
+    color: var(--accent-dark);
+}
+
+.home-card p {
+    margin: 0;
+    color: var(--muted);
+}
+
+/* az ikon színes körben */
+.home-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 92px;
+    height: 92px;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+    background: var(--butter);
+    font-size: 2.8rem;
+}
+
+.home-buttons > :nth-child(2) .home-icon {
+    background: var(--herb-light);
+}
+
+.home-buttons > :nth-child(3) .home-icon {
+    background: var(--blush);
+}
+
+/* Még nem működő kártya */
+.home-card-disabled {
+    opacity: 0.65;
+    border-style: dashed;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+.home-card-disabled:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: var(--border);
+}
+
+.home-soon {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.15rem 0.85rem;
+    background: var(--butter);
+    border-radius: 999px;
+    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: 700;
 }
 
 /* ---------- Receptlista ---------- */
@@ -185,20 +430,36 @@ p {
     padding: 1.5rem;
     background: var(--white);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-top: 6px solid var(--herb);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
     color: var(--text);
     text-decoration: none;
     transition: box-shadow 0.15s, transform 0.15s;
 }
 
 .recipe-card:hover {
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-4px);
+    color: var(--text);
+}
+
+/* a kártyák teteje váltakozó színű */
+.recipe-grid > :nth-child(3n+1) .recipe-card {
+    border-top-color: var(--accent);
+}
+
+.recipe-grid > :nth-child(3n+2) .recipe-card {
+    border-top-color: var(--herb);
+}
+
+.recipe-grid > :nth-child(3n) .recipe-card {
+    border-top-color: #e0a82e;
 }
 
 .recipe-card h3 {
-    font-size: 1.15rem;
-    color: var(--green-dark);
+    font-size: 1.25rem;
+    color: var(--accent-dark);
 }
 
 .recipe-card .description {
@@ -215,11 +476,12 @@ p {
 }
 
 .badge {
-    padding: 0.15rem 0.6rem;
-    background: var(--green-light);
-    color: var(--green-dark);
+    padding: 0.15rem 0.7rem;
+    background: var(--herb-light);
+    color: var(--herb-dark);
     border-radius: 999px;
     font-size: 0.8rem;
+    font-weight: 700;
 }
 
 .meta {
@@ -229,14 +491,67 @@ p {
 
 .author {
     margin-top: 0.25rem;
-    color: #999999;
+    color: #a89888;
     font-size: 0.8rem;
 }
 
 .empty {
     padding: 2rem;
+    background: var(--white);
+    border: 2px dashed var(--border);
+    border-radius: 16px;
     text-align: center;
     color: var(--muted);
+}
+
+/* ---------- Szív (kedvencek) ---------- */
+.heart {
+    display: inline-block;
+    padding: 0.2rem;
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+
+.heart:hover {
+    transform: scale(1.25);
+}
+
+.heart-form {
+    margin: 0;
+}
+
+/* A kártyán a szív a jobb felső sarokban lebeg */
+.recipe-card-wrap {
+    position: relative;
+}
+
+.recipe-card-wrap > .recipe-card {
+    height: 100%;
+}
+
+.recipe-card-wrap .recipe-card h3 {
+    padding-right: 2.5rem;
+}
+
+.recipe-card-wrap > .heart-form,
+.recipe-card-wrap > .heart-link {
+    position: absolute;
+    top: 0.9rem;
+    right: 0.75rem;
+    z-index: 2;
+}
+
+/* A recept oldalon a cím mellett jobbra */
+.title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
 /* ---------- Recept részletes oldal ---------- */
@@ -245,23 +560,40 @@ p {
     padding: 2rem;
     background: var(--white);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+}
+
+/* a recept lapja "megvarrt" szélű, mint egy receptkártya */
+.container-narrow .card {
+    outline: 2px dashed var(--border);
+    outline-offset: -12px;
 }
 
 .section-title {
     margin-top: 2rem;
     padding-bottom: 0.4rem;
-    border-bottom: 2px solid var(--green-light);
-    font-size: 1.2rem;
-    color: var(--green-dark);
+    border-bottom: 2px dashed var(--border);
+    font-size: 1.35rem;
+    color: var(--herb-dark);
 }
 
 .ingredient-list {
     margin: 0.75rem 0 0;
+    padding: 0;
+    list-style: none;
 }
 
 .ingredient-list li {
-    padding: 0.2rem 0;
+    padding: 0.35rem 0;
+    border-bottom: 1px dotted var(--border);
+}
+
+.ingredient-list li::before {
+    content: "•";
+    margin-right: 0.6rem;
+    color: var(--accent);
+    font-weight: 700;
 }
 
 .steps {
@@ -273,26 +605,79 @@ p {
 .steps li {
     display: flex;
     gap: 0.75rem;
-    margin-bottom: 0.9rem;
+    margin-bottom: 1rem;
 }
 
 .step-number {
     flex-shrink: 0;
-    width: 1.8rem;
-    height: 1.8rem;
+    width: 2rem;
+    height: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--green);
+    background: var(--accent);
     color: var(--white);
     border-radius: 50%;
-    font-size: 0.85rem;
-    font-weight: 600;
+    box-shadow: 0 2px 0 var(--accent-dark);
+    font-size: 0.9rem;
+    font-weight: 700;
 }
 
 .back-link {
     display: inline-block;
     margin-top: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    color: var(--accent-dark);
+    text-decoration: underline;
+}
+
+/* ---------- Hűtő ---------- */
+.pantry-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.pantry-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pantry-table th {
+    color: var(--muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.pantry-table th,
+.pantry-table td {
+    padding: 0.6rem 0.5rem;
+    border-bottom: 1px dashed var(--border);
+    text-align: left;
+}
+
+.pantry-table tbody tr:hover {
+    background: var(--bg);
+}
+
+.expired {
+    color: #c0392b;
+    font-weight: 700;
+}
+
+.soon {
+    color: #c77d0a;
+    font-weight: 700;
+}
+
+.muted {
+    color: var(--muted);
 }
 
 /* ---------- Lapozó (a Laravel bootstrap-4 nézetéhez) ---------- */
@@ -308,35 +693,37 @@ p {
 
 .page-link {
     display: block;
-    padding: 0.4rem 0.75rem;
+    padding: 0.4rem 0.85rem;
     background: var(--white);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 999px;
     color: var(--text);
     text-decoration: none;
 }
 
 a.page-link:hover {
-    background: var(--green-light);
+    background: var(--butter);
 }
 
 .page-item.active .page-link {
-    background: var(--green);
-    border-color: var(--green);
+    background: var(--accent);
+    border-color: var(--accent);
     color: var(--white);
 }
 
 .page-item.disabled .page-link {
-    color: #aaaaaa;
+    color: #b9ab9d;
 }
 
 /* ---------- Lábléc ---------- */
 .site-footer {
-    margin-top: 3rem;
-    padding: 1.5rem 0;
+    max-width: 1100px;
+    margin: 3rem auto 0;
+    padding: 1.5rem 1rem;
+    border-top: 2px dashed var(--border);
     text-align: center;
     color: var(--muted);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
 }
 
 /* ---------- Kisebb képernyő ---------- */
@@ -346,126 +733,10 @@ a.page-link:hover {
     }
 
     .page-title {
-        font-size: 1.4rem;
+        font-size: 1.6rem;
     }
-}
 
-/* ---------- Főoldal: a három választási lehetőség ---------- */
-.home-buttons {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.25rem;
-    margin: 2rem 0;
-}
-
-.home-card {
-    display: block;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 2rem 1.5rem;
-    text-align: center;
-    text-decoration: none;
-    color: var(--text);
-    transition: transform 0.15s, box-shadow 0.15s;
-}
-
-.home-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-}
-
-.home-icon {
-    display: block;
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
-}
-
-.home-card p {
-    color: var(--muted);
-    margin: 0;
-}
-
-/* Még nem működő kártya */
-.home-card-disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-.home-card-disabled:hover {
-    transform: none;
-    box-shadow: none;
-}
-
-.home-soon {
-    display: inline-block;
-    margin-top: 0.75rem;
-    padding: 0.15rem 0.75rem;
-    background: var(--green-light);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    font-size: 0.85rem;
-    color: var(--muted);
-}
-
-/* ---------- Üzenetek ---------- */
-.alert {
-    background: var(--green-light);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 0.75rem 1rem;
-    margin: 1rem 0;
-}
-
-.alert-error {
-    background: #fdecec;
-    border-color: #f5b5b5;
-}
-
-.alert-error ul {
-    margin: 0;
-    padding-left: 1.25rem;
-}
-
-/* ---------- Hűtő ---------- */
-.pantry-form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.pantry-form select,
-.pantry-form input {
-    padding: 0.5rem 0.75rem;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 1rem;
-    font-family: inherit;
-}
-
-.pantry-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.pantry-table th,
-.pantry-table td {
-    text-align: left;
-    padding: 0.5rem;
-    border-bottom: 1px solid var(--border);
-}
-
-.expired {
-    color: #c0392b;
-    font-weight: 600;
-}
-
-.soon {
-    color: #d68910;
-    font-weight: 600;
-}
-
-.muted {
-    color: var(--muted);
+    .home-hero .page-title {
+        font-size: 1.9rem;
+    }
 }

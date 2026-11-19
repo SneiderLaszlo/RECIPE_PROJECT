@@ -24,26 +24,10 @@
     @else
         <div class="recipe-grid">
             @foreach ($recipes as $recipe)
-                <a href="{{ route('recipes.show', $recipe) }}" class="recipe-card">
-
-                    <h3>{{ $recipe->name }}</h3>
-
-                    <p class="description">{{ Str::limit($recipe->description, 100) }}</p>
-
-                    <div class="badges">
-                        @foreach ($recipe->categories as $category)
-                            <span class="badge">{{ $category->name }}</span>
-                        @endforeach
-                    </div>
-
-                    <div class="meta">
-                        {{ $recipe->prep_time }} perc ·
-                        {{ $recipe->difficulty }} ·
-                        {{ $recipe->servings }} adag
-                    </div>
-
-                    <div class="author">Feltöltötte: {{ $recipe->author->name }}</div>
-                </a>
+                @include('partials.recipe-card', [
+                    'recipe' => $recipe,
+                    'isFavorite' => in_array($recipe->id, $favoriteIds),
+                ])
             @endforeach
         </div>
 

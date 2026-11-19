@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PantryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecipeController;
@@ -17,10 +18,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Hűtő (csak bejelentkezve)
+    // Hűtő
     Route::get('/pantry', [PantryController::class, 'index'])->name('pantry.index');
     Route::post('/pantry', [PantryController::class, 'store'])->name('pantry.store');
     Route::delete('/pantry/{pantryItem}', [PantryController::class, 'destroy'])->name('pantry.destroy');
+
+    // Kedvencek
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+    Route::post('/recipes/{recipe}/favorite', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 });
 
 // A random-nak a resource ELŐTT kell lennie, különben a {recipe} "random"-ot azonosítónak venné (404).

@@ -7,7 +7,10 @@
     <div class="container-narrow" style="margin: 0 auto;">
         <div class="card">
 
-            <h1 class="page-title">{{ $recipe->name }}</h1>
+            <div class="title-row">
+                <h1 class="page-title">{{ $recipe->name }}</h1>
+                @include('partials.favorite-button', ['recipe' => $recipe, 'active' => $isFavorite])
+            </div>
 
             <div class="badges">
                 @foreach ($recipe->categories as $category)
