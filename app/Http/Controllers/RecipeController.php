@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Recipe;
 use App\Models\Unit;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -48,5 +49,20 @@ class RecipeController extends Controller
         $units = Unit::pluck('abbreviation', 'id');
 
         return view('recipes.show', compact('recipe', 'units'));
+    }
+
+    /**
+     * Egy véletlenszerű, jóváhagyott receptre irányít.
+     */
+    public function random(): RedirectResponse
+    {
+        $recipe = Recipe::where('status', 'approved')->inRandomOrder()->first();
+
+        if (! $recipe) {
+            return redirect()->route('recipes.index')
+                ->with('status', 'Még nincs jóváhagyott recept.');
+        }
+
+        return redirect()->route('recipes.show', $recipe);
     }
 }

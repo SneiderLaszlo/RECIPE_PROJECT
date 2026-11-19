@@ -13,7 +13,7 @@
     <header class="site-header">
         <div class="container">
 
-            <a href="{{ route('recipes.index') }}" class="brand">🍲 Recept oldal</a>
+            <a href="{{ route('home') }}" class="brand">🍲 Recept oldal</a>
 
             <nav class="nav">
                 <a href="{{ route('recipes.index') }}"
@@ -23,6 +23,11 @@
 
                 {{-- Bejelentkezett felhasználónak --}}
                 @auth
+                    <a href="{{ route('pantry.index') }}"
+                       class="nav-link {{ request()->routeIs('pantry.*') ? 'active' : '' }}">
+                        🧊 Hűtő
+                    </a>
+
                     <span class="nav-user">{{ Auth::user()->name }}</span>
 
                     <a href="{{ route('profile.edit') }}" class="nav-link">Profil</a>
@@ -44,6 +49,10 @@
     </header>
 
     <main class="container">
+        @if (session('status'))
+            <div class="alert">{{ session('status') }}</div>
+        @endif
+
         @yield('content')
     </main>
 

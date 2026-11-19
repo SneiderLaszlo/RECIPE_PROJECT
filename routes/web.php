@@ -1,12 +1,12 @@
 <?php
 
+use App\Http\Controllers\PantryController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecipeController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Főoldal: a három választási lehetőség
+Route::view('/', 'home')->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -16,7 +16,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Hűtő (csak bejelentkezve)
+    Route::get('/pantry', [PantryController::class, 'index'])->name('pantry.index');
+    Route::post('/pantry', [PantryController::class, 'store'])->name('pantry.store');
+    Route::delete('/pantry/{pantryItem}', [PantryController::class, 'destroy'])->name('pantry.destroy');
 });
+
+// A random-nak a resource ELŐTT kell lennie, különben a {recipe} "random"-ot azonosítónak venné (404).
+Route::get('/recipes/random', [RecipeController::class, 'random'])->name('recipes.random');
 
 Route::resource('recipes', RecipeController::class)->only(['index', 'show']);
 

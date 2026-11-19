@@ -349,3 +349,123 @@ a.page-link:hover {
         font-size: 1.4rem;
     }
 }
+
+/* ---------- Főoldal: a három választási lehetőség ---------- */
+.home-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin: 2rem 0;
+}
+
+.home-card {
+    display: block;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.home-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.home-icon {
+    display: block;
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.home-card p {
+    color: var(--muted);
+    margin: 0;
+}
+
+/* Még nem működő kártya */
+.home-card-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.home-card-disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.home-soon {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.15rem 0.75rem;
+    background: var(--green-light);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+/* ---------- Üzenetek ---------- */
+.alert {
+    background: var(--green-light);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+}
+
+.alert-error {
+    background: #fdecec;
+    border-color: #f5b5b5;
+}
+
+.alert-error ul {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+/* ---------- Hűtő ---------- */
+.pantry-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.pantry-form select,
+.pantry-form input {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+.pantry-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pantry-table th,
+.pantry-table td {
+    text-align: left;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.expired {
+    color: #c0392b;
+    font-weight: 600;
+}
+
+.soon {
+    color: #d68910;
+    font-weight: 600;
+}
+
+.muted {
+    color: var(--muted);
+}
